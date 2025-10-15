@@ -208,7 +208,7 @@ All tests pass successfully:
 ```
 ✅ Code Structure: PASSED
 ✅ Basic Chatbot: PASSED
-⚠️  NLP Imports: Expected failure (dependencies not in test env)
+⚠️ NLP Imports: Expected failure (dependencies not in test env)
 ✅ Chatbot NLP Mode: PASSED (graceful degradation)
 ✅ Main Script: PASSED
 
