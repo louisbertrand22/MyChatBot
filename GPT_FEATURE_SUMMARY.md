@@ -121,7 +121,7 @@ python main.py --gpt
 ```
 
 ```
-Vous: Tell me about artificial intelligence
+You: Tell me about artificial intelligence
 Bot: Artificial intelligence is a field that focuses on creating intelligent machines...
 ```
 
@@ -175,7 +175,7 @@ All core tests pass:
 
 ### Manual Testing Without Dependencies
 
-The implementation includes graceful degradation:
+The implementation falls back to predefined responses when GPT dependencies are missing:
 - Chatbot works in basic mode even if GPT dependencies missing
 - Clear warnings inform user about missing dependencies
 - No crashes or errors in fallback mode
@@ -277,7 +277,8 @@ Generated text is cleaned:
 
 ## 🎓 Learning Resources
 
-- [GPT-2 Paper](https://openai.com/blog/better-language-models/)
+- [GPT-2 Paper (arXiv)](https://arxiv.org/abs/1808.10472)
+- [GPT-2 Paper (PDF)](https://d4mucfpksywv.cloudfront.net/better-language-models/language_models_are_unsupervised_multitask_learners.pdf)
 - [Hugging Face Transformers Documentation](https://huggingface.co/docs/transformers/)
 - [GPT-2 Model Card](https://huggingface.co/gpt2)
 - [Text Generation Guide](https://huggingface.co/docs/transformers/main/en/tasks/language_modeling)
