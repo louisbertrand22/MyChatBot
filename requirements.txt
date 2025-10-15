@@ -1,9 +1,9 @@
-# No external dependencies required for this simple chatbot
-# Python 3.6+ is required
+# Core NLP dependencies
+nltk>=3.9
+spacy>=3.7.0
+transformers>=4.48.0
+torch>=2.6.0
 
 # Optional dependencies for future enhancements:
-# nltk>=3.8.1
-# spacy>=3.7.0
-# transformers>=4.30.0
 # flask>=2.3.0
 # streamlit>=1.28.0
