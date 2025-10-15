@@ -57,10 +57,13 @@ similarity = nlp.compute_similarity(
 
 ### 3. Transformers (Hugging Face)
 **Version** : 4.48.0+
-**Modèle utilisé** : `distilbert-base-uncased-finetuned-sst-2-english`
+**Modèles utilisés** : 
+- `distilbert-base-uncased-finetuned-sst-2-english` (analyse de sentiment)
+- `gpt2` (génération de texte)
 
 **Fonctionnalités utilisées** :
 - **Analyse de sentiment** : Détermine si un texte est positif ou négatif
+- **Génération de texte (GPT-2)** : Génère du texte naturel à partir d'un prompt
 - **Modèles pré-entraînés** : Utilise des modèles de deep learning pour l'analyse de texte
 
 **Exemple d'utilisation** :
@@ -75,6 +78,15 @@ sentiment = nlp.analyze_sentiment("I love this chatbot! It's amazing!")
 
 sentiment = nlp.analyze_sentiment("This is terrible and disappointing.")
 # Résultat: {'label': 'NEGATIVE', 'score': 0.9995}
+
+# Génération de texte avec GPT-2
+generated = nlp.generate_text(
+    "Once upon a time",
+    max_length=50,
+    num_return_sequences=1,
+    temperature=0.7
+)
+# Résultat: ["Once upon a time, there was a small village..."]
 ```
 
 ## 🚀 Installation complète
@@ -135,6 +147,13 @@ En mode `--nlp-info`, chaque réponse inclut :
 - Les entités nommées trouvées
 - Les mots-clés extraits
 
+### Mode avec génération de texte GPT
+```bash
+python main.py --gpt
+```
+
+En mode `--gpt`, le chatbot utilise GPT-2 pour générer des réponses plus naturelles et créatives au lieu d'utiliser des réponses prédéfinies.
+
 ### Exemple de conversation avec NLP
 
 ```
@@ -191,6 +210,7 @@ class NLPProcessor:
     
     # Transformers methods
     def analyze_sentiment(self, text) -> dict
+    def generate_text(self, prompt, max_length, num_return_sequences, temperature) -> list
 ```
 
 ### Intégration dans le chatbot
@@ -218,6 +238,22 @@ python nlp_demo.py --chatbot
 ```
 
 Cette commande teste le chatbot avec plusieurs messages et affiche l'analyse NLP pour chacun.
+
+### 3. Démonstration de la génération de texte GPT
+
+```bash
+python nlp_demo.py --gpt
+```
+
+Cette commande démontre la génération de texte avec GPT-2 sur plusieurs prompts.
+
+### 4. Démonstration du chatbot avec GPT
+
+```bash
+python nlp_demo.py --chatbot-gpt
+```
+
+Cette commande teste le chatbot en mode génération GPT pour des réponses plus naturelles.
 
 ## 🎯 Cas d'usage
 
@@ -251,6 +287,19 @@ sentiment = nlp.analyze_sentiment(user_input)
 # Résultat: {'label': 'NEGATIVE', 'score': 0.98}
 
 # Le chatbot peut détecter l'insatisfaction et adapter sa réponse
+```
+
+### 4. Génération de texte naturel avec GPT-2
+
+```python
+from bot import ChatBot
+
+# Créer un chatbot avec GPT activé
+bot = ChatBot(use_gpt=True)
+
+# Générer une réponse avec GPT
+response = bot.get_response("Tell me about AI", use_generation=True)
+# Le chatbot utilise GPT-2 pour générer une réponse naturelle
 ```
 
 ## 🔍 Gestion des erreurs
@@ -287,10 +336,12 @@ Le code inclut une gestion robuste des erreurs :
 1. **Support multilingue**
    - Modèles spaCy français (`fr_core_news_sm`)
    - Détection automatique de langue
-   
-2. **Génération de texte**
-   - Intégration de GPT-2 ou modèles similaires
-   - Réponses plus naturelles et variées
+
+2. **Amélioration de la génération de texte**
+   - Utilisation de modèles GPT plus grands (GPT-2 Medium, Large)
+   - Intégration de GPT-3 ou modèles similaires via API
+   - Fine-tuning sur des données de conversation spécifiques
+   - Ajout de mémoire conversationnelle pour plus de cohérence
 
 3. **Apprentissage en ligne**
    - Sauvegarde des conversations
