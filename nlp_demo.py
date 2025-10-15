@@ -148,6 +148,101 @@ def demo_chatbot_nlp():
         print(f"Error: {e}")
 
 
+def demo_gpt_generation():
+    """
+    Demonstrate GPT-2 text generation capabilities.
+    """
+    print("\n" + "=" * 70)
+    print("GPT-2 Text Generation Demonstration")
+    print("=" * 70)
+    print()
+    
+    try:
+        from nlp_utils import get_nlp_processor
+        nlp = get_nlp_processor()
+        
+        if not nlp.text_generator:
+            print("GPT text generation not available.")
+            print("Make sure transformers and torch are installed.")
+            return
+        
+        print("Demonstrating text generation with various prompts:\n")
+        
+        # Test prompts
+        prompts = [
+            "Once upon a time",
+            "The future of artificial intelligence is",
+            "In the world of technology",
+            "A chatbot can help users by"
+        ]
+        
+        for prompt in prompts:
+            print(f"{'=' * 70}")
+            print(f"Prompt: {prompt}")
+            print(f"{'=' * 70}")
+            
+            # Generate multiple variations
+            generated = nlp.generate_text(
+                prompt,
+                max_length=50,
+                num_return_sequences=2,
+                temperature=0.8
+            )
+            
+            for i, text in enumerate(generated, 1):
+                print(f"\nGeneration {i}:")
+                print(f"  {text}")
+            print()
+    
+    except ImportError as e:
+        print("Error: NLP dependencies not installed.")
+        print(f"Details: {e}")
+    except Exception as e:
+        print(f"Error: {e}")
+
+
+def demo_chatbot_gpt():
+    """
+    Demonstrate the chatbot with GPT text generation enabled.
+    """
+    print("\n" + "=" * 70)
+    print("Chatbot with GPT Text Generation Demonstration")
+    print("=" * 70)
+    print()
+    
+    try:
+        from bot import ChatBot
+        
+        # Create chatbot with GPT enabled
+        bot = ChatBot(use_gpt=True)
+        
+        if not bot.use_gpt:
+            print("GPT mode could not be enabled.")
+            print("Make sure transformers and torch are installed.")
+            return
+        
+        # Test messages
+        test_messages = [
+            "Tell me about artificial intelligence",
+            "What do you think about the weather",
+            "Can you help me with programming"
+        ]
+        
+        print("Testing chatbot with GPT generation:\n")
+        
+        for msg in test_messages:
+            print(f"User: {msg}")
+            response = bot.get_response(msg, use_generation=True)
+            print(f"Bot: {response}")
+            print()
+        
+    except ImportError as e:
+        print("Error: Could not import chatbot or NLP dependencies.")
+        print(f"Details: {e}")
+    except Exception as e:
+        print(f"Error: {e}")
+
+
 def main():
     """
     Main function to run demonstrations.
@@ -155,15 +250,30 @@ def main():
     print("\nNLP Integration Demonstration for MyChatBot")
     print("This script demonstrates NLTK, spaCy, and transformers integration.\n")
     
-    if len(sys.argv) > 1 and sys.argv[1] == "--chatbot":
-        demo_chatbot_nlp()
+    if len(sys.argv) > 1:
+        if sys.argv[1] == "--chatbot":
+            demo_chatbot_nlp()
+        elif sys.argv[1] == "--gpt":
+            demo_gpt_generation()
+        elif sys.argv[1] == "--chatbot-gpt":
+            demo_chatbot_gpt()
+        else:
+            print(f"Unknown option: {sys.argv[1]}")
+            print("\nAvailable options:")
+            print("  (no option)      - Show all NLP features")
+            print("  --chatbot        - Demo chatbot with NLP")
+            print("  --gpt            - Demo GPT text generation")
+            print("  --chatbot-gpt    - Demo chatbot with GPT generation")
     else:
         demo_nlp_features()
         print("\n" + "=" * 70)
-        print("\nTo see the chatbot with NLP in action, run:")
-        print("  python nlp_demo.py --chatbot")
+        print("\nTo see more demonstrations, run:")
+        print("  python nlp_demo.py --chatbot      (Chatbot with NLP)")
+        print("  python nlp_demo.py --gpt          (GPT text generation)")
+        print("  python nlp_demo.py --chatbot-gpt  (Chatbot with GPT)")
         print("\nOr start an interactive session:")
-        print("  python main.py --nlp")
+        print("  python main.py --nlp              (Interactive NLP mode)")
+        print("  python main.py --gpt              (Interactive GPT mode)")
         print("=" * 70)
 
 
