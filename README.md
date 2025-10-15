@@ -85,6 +85,11 @@ python main.py --nlp
 python main.py --nlp-info
 ```
 
+**Mode avec génération de texte GPT :**
+```bash
+python main.py --gpt
+```
+
 **Ou directement :**
 ```bash
 python bot.py
@@ -100,6 +105,16 @@ python nlp_demo.py
 Pour tester le chatbot avec NLP en mode démonstration :
 ```bash
 python nlp_demo.py --chatbot
+```
+
+Pour tester la génération de texte GPT :
+```bash
+python nlp_demo.py --gpt
+```
+
+Pour tester le chatbot avec génération GPT :
+```bash
+python nlp_demo.py --chatbot-gpt
 ```
 
 ### Exemples d'interaction
@@ -163,6 +178,7 @@ Le module `nlp_utils.py` fournit une classe `NLPProcessor` avec les méthodes su
 
 - **Transformers** :
   - `analyze_sentiment(text)` : Analyse de sentiment
+  - `generate_text(prompt, max_length, num_return_sequences, temperature)` : Génération de texte avec GPT-2
 
 Exemple d'utilisation :
 ```python
@@ -172,17 +188,21 @@ nlp = get_nlp_processor()
 tokens = nlp.tokenize("Hello, how are you?")
 sentiment = nlp.analyze_sentiment("I love this!")
 entities = nlp.extract_entities("Apple Inc. is in California")
+
+# Génération de texte avec GPT-2
+generated = nlp.generate_text("Once upon a time", max_length=50)
+print(generated[0])
 ```
 
 ## 🔮 Améliorations futures
 
 - [x] ~~Ajouter un modèle d'apprentissage automatique (NLTK, spaCy)~~ ✅
 - [x] ~~Ajouter le traitement du langage naturel (NLP)~~ ✅
+- [x] ~~Intégration de modèles de génération de texte (GPT-2, etc.)~~ ✅
 - [ ] Créer une interface web avec Flask ou Streamlit
 - [ ] Implémenter un système de contexte pour les conversations
 - [ ] Sauvegarder l'historique des conversations
 - [ ] Support multilingue amélioré avec modèles spaCy français
-- [ ] Intégration de modèles de génération de texte (GPT-2, etc.)
 - [ ] Système de dialogue basé sur l'intention avec apprentissage automatique
 
 ## 🤝 Contribution

@@ -29,8 +29,10 @@ class NLPProcessor:
         self.lemmatizer = WordNetLemmatizer()
         self.nlp_spacy = None
         self.sentiment_analyzer = None
+        self.text_generator = None
         self._initialize_spacy()
         self._initialize_sentiment_analyzer()
+        self._initialize_text_generator()
     
     def _download_nltk_resources(self):
         """
@@ -70,6 +72,20 @@ class NLPProcessor:
             print(f"Note: Could not load sentiment analyzer: {e}")
             print("Sentiment analysis features will be disabled.")
             self.sentiment_analyzer = None
+    
+    def _initialize_text_generator(self):
+        """
+        Initialize text generation pipeline using transformers (GPT-2).
+        """
+        try:
+            self.text_generator = pipeline(
+                "text-generation",
+                model="gpt2"
+            )
+        except Exception as e:
+            print(f"Note: Could not load text generator: {e}")
+            print("Text generation features will be disabled.")
+            self.text_generator = None
     
     def tokenize(self, text):
         """
@@ -221,6 +237,42 @@ class NLPProcessor:
         except Exception as e:
             print(f"Error computing similarity: {e}")
             return None
+    
+    def generate_text(self, prompt, max_length=50, num_return_sequences=1, temperature=0.7):
+        """
+        Generate text using GPT-2 model.
+        
+        Args:
+            prompt (str): Text prompt to continue
+            max_length (int): Maximum length of generated text (default: 50)
+            num_return_sequences (int): Number of sequences to generate (default: 1)
+            temperature (float): Sampling temperature, higher = more creative (default: 0.7)
+            
+        Returns:
+            list: List of generated text strings, or empty list if unavailable
+        """
+        if self.text_generator is None:
+            return []
+        
+        try:
+            # Generate text with the given parameters
+            results = self.text_generator(
+                prompt,
+                max_length=max_length,
+                num_return_sequences=num_return_sequences,
+                temperature=temperature,
+                do_sample=True,
+                top_k=50,
+                top_p=0.95,
+                pad_token_id=50256  # GPT-2 EOS token
+            )
+            
+            # Extract generated text from results
+            generated_texts = [result['generated_text'] for result in results]
+            return generated_texts
+        except Exception as e:
+            print(f"Error generating text: {e}")
+            return []
 
 
 # Singleton instance for easy access

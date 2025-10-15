@@ -13,6 +13,7 @@ def main():
     Command line arguments:
         --nlp: Enable NLP features
         --nlp-info: Enable NLP features with detailed analysis display
+        --gpt: Enable GPT text generation
     """
     print("Démarrage du chatbot...")
     print()
@@ -21,9 +22,12 @@ def main():
     use_nlp = '--nlp' in sys.argv or '--nlp-info' in sys.argv
     show_nlp_info = '--nlp-info' in sys.argv
     
+    # Check for GPT mode
+    use_gpt = '--gpt' in sys.argv
+    
     # Create and start the chatbot
-    chatbot = ChatBot(use_nlp=use_nlp)
-    chatbot.chat(show_nlp_info=show_nlp_info)
+    chatbot = ChatBot(use_nlp=use_nlp, use_gpt=use_gpt)
+    chatbot.chat(show_nlp_info=show_nlp_info, use_generation=use_gpt)
 
 
 if __name__ == "__main__":

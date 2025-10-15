@@ -143,17 +143,57 @@ def test_main_script():
         return False
 
 
+def test_gpt_integration():
+    """Test GPT text generation integration"""
+    print("\n" + "=" * 70)
+    print("Test 5: GPT Text Generation Integration")
+    print("=" * 70)
+    
+    try:
+        from bot import ChatBot
+        
+        # Test that chatbot can be created with GPT mode
+        print("\nCreating chatbot with GPT mode enabled...")
+        bot = ChatBot(use_gpt=True)
+        print("✓ Chatbot created with GPT mode")
+        
+        # Test that GPT-related methods exist
+        assert hasattr(bot, 'use_gpt'), "use_gpt attribute not found"
+        assert hasattr(bot, '_generate_gpt_response'), "_generate_gpt_response method not found"
+        print("✓ GPT-related attributes and methods exist")
+        
+        # Test get_response with use_generation parameter
+        print("\nTesting get_response with use_generation parameter:")
+        response = bot.get_response("Hello", use_generation=False)
+        print(f"Response (generation=False): {response}")
+        
+        if response and len(response) > 0:
+            print("✓ Chatbot responds without generation")
+        else:
+            print("✗ Empty response")
+            return False
+        
+        print("\n✅ GPT integration test PASSED")
+        return True
+        
+    except Exception as e:
+        print(f"\n❌ GPT integration test FAILED: {e}")
+        import traceback
+        traceback.print_exc()
+        return False
+
+
 def test_code_structure():
     """Test that all required files exist and have proper structure"""
     print("\n" + "=" * 70)
-    print("Test 5: Code Structure")
+    print("Test 6: Code Structure")
     print("=" * 70)
     
     required_files = {
-        'bot.py': ['ChatBot', 'get_response', 'find_intent'],
-        'nlp_utils.py': ['NLPProcessor', 'get_nlp_processor'],
-        'nlp_demo.py': ['demo_nlp_features', 'demo_chatbot_nlp'],
-        'main.py': ['main'],
+        'bot.py': ['ChatBot', 'get_response', 'find_intent', 'use_gpt', '_generate_gpt_response'],
+        'nlp_utils.py': ['NLPProcessor', 'get_nlp_processor', 'generate_text', 'text_generator'],
+        'nlp_demo.py': ['demo_nlp_features', 'demo_chatbot_nlp', 'demo_gpt_generation', 'demo_chatbot_gpt'],
+        'main.py': ['main', '--gpt'],
         'requirements.txt': ['nltk', 'spacy', 'transformers'],
         'data/faq.json': ['greetings', 'goodbye'],
     }
@@ -205,6 +245,7 @@ def main():
         ("NLP Imports", test_nlp_imports),
         ("Chatbot NLP Mode", test_chatbot_nlp_mode),
         ("Main Script", test_main_script),
+        ("GPT Integration", test_gpt_integration),
     ]
     
     results = []

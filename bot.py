@@ -12,30 +12,37 @@ import os
 class ChatBot:
     """Simple rule-based chatbot enhanced with NLP capabilities"""
     
-    def __init__(self, faq_file='data/faq.json', use_nlp=False):
+    def __init__(self, faq_file='data/faq.json', use_nlp=False, use_gpt=False):
         """
         Initialize the chatbot with FAQ data
         
         Args:
             faq_file (str): Path to the FAQ JSON file
             use_nlp (bool): Whether to use NLP features (requires dependencies)
+            use_gpt (bool): Whether to use GPT text generation (requires transformers)
         """
         self.faq_file = faq_file
         self.knowledge_base = self.load_knowledge_base()
         self.use_nlp = use_nlp
+        self.use_gpt = use_gpt
         self.nlp_processor = None
         
-        if self.use_nlp:
+        if self.use_nlp or self.use_gpt:
             try:
                 from nlp_utils import get_nlp_processor
                 self.nlp_processor = get_nlp_processor()
-                print("NLP features activated!")
+                if self.use_nlp:
+                    print("NLP features activated!")
+                if self.use_gpt:
+                    print("GPT text generation activated!")
             except ImportError:
                 print("Warning: NLP dependencies not installed. Install with: pip install -r requirements.txt")
                 self.use_nlp = False
+                self.use_gpt = False
             except Exception as e:
                 print(f"Warning: Could not initialize NLP features: {e}")
                 self.use_nlp = False
+                self.use_gpt = False
         
     def load_knowledge_base(self):
         """
@@ -124,20 +131,25 @@ class ChatBot:
         
         return best_match
     
-    def get_response(self, user_input, include_nlp_info=False):
+    def get_response(self, user_input, include_nlp_info=False, use_generation=False):
         """
         Generate a response based on user input.
-        Optionally includes NLP analysis information.
+        Optionally includes NLP analysis information or uses GPT generation.
         
         Args:
             user_input (str): User's message
             include_nlp_info (bool): Whether to include NLP analysis in response
+            use_generation (bool): Whether to use GPT text generation instead of predefined responses
             
         Returns:
             str: Bot's response (with optional NLP info)
         """
         if not user_input.strip():
             return "Je n'ai rien reçu. Pouvez-vous répéter ?"
+        
+        # Use GPT generation if enabled and requested
+        if use_generation and self.use_gpt and self.nlp_processor:
+            return self._generate_gpt_response(user_input)
         
         # Get NLP analysis if enabled
         nlp_info = ""
@@ -190,16 +202,52 @@ class ChatBot:
         
         return analysis
     
-    def chat(self, show_nlp_info=False):
+    def _generate_gpt_response(self, user_input):
+        """
+        Generate a response using GPT-2 text generation.
+        
+        Args:
+            user_input (str): User's message
+            
+        Returns:
+            str: Generated response
+        """
+        # Create a conversational prompt
+        prompt = f"User: {user_input}\nBot:"
+        
+        # Generate response
+        generated_texts = self.nlp_processor.generate_text(
+            prompt,
+            max_length=len(prompt.split()) + 30,  # Prompt length + 30 tokens
+            num_return_sequences=1,
+            temperature=0.7
+        )
+        
+        if generated_texts:
+            # Extract just the bot's response part
+            full_text = generated_texts[0]
+            # Remove the prompt and get only the bot's response
+            if "Bot:" in full_text:
+                response = full_text.split("Bot:", 1)[1].strip()
+                # Clean up the response - take first sentence or reasonable chunk
+                response = response.split('\n')[0].strip()
+                return response if response else "Je réfléchis encore à ma réponse..."
+        
+        return "Je ne peux pas générer de réponse pour le moment."
+    
+    def chat(self, show_nlp_info=False, use_generation=False):
         """
         Start an interactive chat session
         
         Args:
             show_nlp_info (bool): Whether to display NLP analysis with responses
+            use_generation (bool): Whether to use GPT text generation
         """
         print("=" * 50)
         print("Chatbot Simple - Tapez 'quit' ou 'exit' pour quitter")
-        if self.use_nlp:
+        if self.use_gpt and use_generation:
+            print("Mode Génération GPT activé!")
+        elif self.use_nlp:
             print("Mode NLP activé!")
             if show_nlp_info:
                 print("(Affichage de l'analyse NLP activé)")
@@ -217,7 +265,7 @@ class ChatBot:
                     print("Bot: Au revoir ! À bientôt !")
                     break
                 
-                response = self.get_response(user_input, include_nlp_info=show_nlp_info)
+                response = self.get_response(user_input, include_nlp_info=show_nlp_info, use_generation=use_generation)
                 print(f"Bot: {response}")
                 print()
                 
