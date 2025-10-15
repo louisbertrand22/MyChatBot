@@ -8,7 +8,7 @@
     ]
   },
   "goodbye": {
-    "patterns": ["au revoir", "bye", "à bientôt", "adieu", "ciao", "salut"],
+    "patterns": ["au revoir", "bye", "à bientôt", "adieu", "ciao"],
     "responses": [
       "Au revoir ! À bientôt !",
       "Bye ! N'hésitez pas à revenir.",
