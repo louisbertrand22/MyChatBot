@@ -1,0 +1,67 @@
+{
+  "greetings": {
+    "patterns": ["bonjour", "salut", "hello", "hi", "coucou", "hey"],
+    "responses": [
+      "Bonjour ! Comment puis-je vous aider ?",
+      "Salut ! Que puis-je faire pour vous ?",
+      "Hello ! Je suis là pour répondre à vos questions."
+    ]
+  },
+  "goodbye": {
+    "patterns": ["au revoir", "bye", "à bientôt", "adieu", "ciao"],
+    "responses": [
+      "Au revoir ! À bientôt !",
+      "Bye ! N'hésitez pas à revenir.",
+      "À bientôt ! Bonne journée !"
+    ]
+  },
+  "name": {
+    "patterns": ["quel est ton nom", "comment tu t'appelles", "qui es-tu", "ton nom"],
+    "responses": [
+      "Je suis un chatbot simple créé pour vous aider.",
+      "Je m'appelle ChatBot. Je suis là pour répondre à vos questions.",
+      "Je suis un assistant virtuel. Comment puis-je vous aider ?"
+    ]
+  },
+  "how_are_you": {
+    "patterns": ["comment ça va", "comment vas-tu", "ça va", "tu vas bien"],
+    "responses": [
+      "Je vais bien, merci ! Et vous ?",
+      "Très bien, merci de demander ! Comment puis-je vous aider ?",
+      "Je suis en pleine forme ! Que puis-je faire pour vous ?"
+    ]
+  },
+  "help": {
+    "patterns": ["aide", "help", "aidez-moi", "besoin d'aide", "que peux-tu faire"],
+    "responses": [
+      "Je peux répondre à vos questions. Essayez de me dire bonjour, de me demander comment je vais, ou de me poser une question sur ce que je peux faire.",
+      "Je suis un chatbot simple. Posez-moi des questions basiques et je ferai de mon mieux pour y répondre !",
+      "Voici ce que je peux faire : répondre à des salutations, discuter un peu, et répondre à quelques questions courantes."
+    ]
+  },
+  "thanks": {
+    "patterns": ["merci", "thank you", "thanks", "merci beaucoup"],
+    "responses": [
+      "De rien ! Heureux de vous aider.",
+      "Avec plaisir !",
+      "Pas de problème ! N'hésitez pas si vous avez d'autres questions."
+    ]
+  },
+  "weather": {
+    "patterns": ["quel temps", "météo", "il fait beau", "weather"],
+    "responses": [
+      "Je ne peux pas vérifier la météo, mais j'espère qu'il fait beau là où vous êtes !",
+      "Désolé, je n'ai pas accès aux informations météo en temps réel.",
+      "Je ne suis qu'un simple chatbot, je ne peux pas consulter la météo actuellement."
+    ]
+  },
+  "default": {
+    "patterns": [],
+    "responses": [
+      "Je ne suis pas sûr de comprendre. Pouvez-vous reformuler ?",
+      "Désolé, je n'ai pas compris. Essayez de me poser une autre question.",
+      "Hmm, je ne connais pas encore la réponse à ça. Je suis un chatbot simple en apprentissage !",
+      "Je ne suis pas sûr de savoir comment répondre à cela. Posez-moi une question plus simple !"
+    ]
+  }
+}
