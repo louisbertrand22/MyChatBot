@@ -1,0 +1,9 @@
+# No external dependencies required for this simple chatbot
+# Python 3.6+ is required
+
+# Optional dependencies for future enhancements:
+# nltk>=3.8.1
+# spacy>=3.7.0
+# transformers>=4.30.0
+# flask>=2.3.0
+# streamlit>=1.28.0
