@@ -41,3 +41,13 @@ env/
 .pytest_cache/
 .coverage
 htmlcov/
+
+# NLP Models and Cache
+nltk_data/
+.cache/
+models/
+*.bin
+*.pkl
+*.h5
+*.pt
+*.pth
